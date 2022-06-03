@@ -18,14 +18,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         sharedPrefManager = SharedPrefManager.getInstance(this);
         Intent LogIn = new Intent(MainActivity.this,LogInScreenActivity.class);
-        // LoggedIn = new Intent(MainActivity.this,HomePage.class);
+        Intent LoggedIn = new Intent(MainActivity.this,nav_drawr.class);
         String s = sharedPrefManager.readString("EMAIL","NotFound");
         if(s.compareTo("NotFound") == 0){
             startActivity(LogIn);
         }else{
-           // startActivity(LoggedIn);
+            startActivity(LoggedIn);
         }
-        sharedPrefManager.clear("EMAIL");
+        //sharedPrefManager.clear("EMAIL");
         finish();
     }
 }

@@ -23,7 +23,7 @@ public class LogInScreenActivity extends AppCompatActivity {
         sharedPrefManager = SharedPrefManager.getInstance(this);
         Button LogInButton = (Button)findViewById(R.id.LogInButton);
         DataBaseHelper dataBaseHelper = new DataBaseHelper(LogInScreenActivity.this, "Project", null, 1);
-        //Intent goToHomePage = new Intent(LogInScreenActivity.this,HomePage.class);
+        Intent goToHomePage = new Intent(LogInScreenActivity.this,nav_drawr.class);
         LogInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,8 +43,8 @@ public class LogInScreenActivity extends AppCompatActivity {
                     if(remember.isChecked()){
                         sharedPrefManager.writeString("EMAIL",email);
                     }
-                   // startActivity(goToHomePage);
-                    //finish();
+                    startActivity(goToHomePage);
+                    finish();
 
                 }else {
                     Toast toast =Toast.makeText(LogInScreenActivity.this,"Password and email combination is wrong",Toast.LENGTH_SHORT);

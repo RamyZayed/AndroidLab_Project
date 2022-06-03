@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_Today">
+
+    <fragment
+        android:id="@+id/nav_Today"
+        android:name="com.example.project.ui.today.TodayFragment"
+        android:label="@string/menu_today"
+        tools:layout="@layout/today_fragment" />
+
+    <fragment
+        android:id="@+id/nav_NewTask"
+        android:name="com.example.project.ui.newtask.newTaskFragment"
+        android:label="@string/menu_NewTask"
+        tools:layout="@layout/new_task_fragment" />
+
+    <fragment
+        android:id="@+id/nav_Week"
+        android:name="com.example.project.ui.week.weekFragment"
+        android:label="@string/menu_Week"
+        tools:layout="@layout/week_fragment" />
+    <fragment
+        android:id="@+id/nav_All"
+        android:name="com.example.project.ui.all.allFragment"
+        android:label="@string/menu_All"
+        tools:layout="@layout/all_fragment" />
+
+    <fragment
+        android:id="@+id/nav_Search"
+        android:name="com.example.project.ui.search.searchFragment"
+        android:label="@string/menu_Search"
+        tools:layout="@layout/search_fragment" />
+
+    <fragment
+        android:id="@+id/nav_Profile"
+        android:name="com.example.project.ui.profile.profileFragment"
+        android:label="@string/menu_Profile"
+        tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/nav_Logout"
+        android:name="com.example.project.ui.logout.logOutFragment"
+        android:label="@string/menu_Logout"
+        tools:layout="@layout/log_out_fragment" />
+
+</navigation>
