@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.project.Models.Task;
 import com.example.project.Models.User;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -29,9 +30,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "PASSWORD TEXT)";
         sqLiteDatabase.execSQL(query);
 
-        String TasksQuery = "CREATE TABLE TASKS (ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "DESC TEXT," +
-                "DATE datetime)";
+        String TasksQuery = "CREATE TABLE TASK (ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "description TEXT," +
+                "year INTEGER," +
+                "month INTEGER," +
+                "day INTEGER," +
+                "email TEXT," +
+                "complete INTEGER)";
         sqLiteDatabase.execSQL(TasksQuery);
     }
     @Override
@@ -82,5 +87,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         else
             return true;
     }
+
+    public void insertTask(Task task) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("description", task.getDesc());
+        contentValues.put("year", task.getYear());
+        contentValues.put("month", task.getMonth());
+        contentValues.put("day", task.getDay());
+        contentValues.put("email", task.getEmail());
+        contentValues.put("complete", 0);
+        sqLiteDatabase.insert("TASK", null, contentValues);
+    }
+
+    public Cursor getAllTasks() {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT * FROM TASK", null);
+    }
+
 
 }

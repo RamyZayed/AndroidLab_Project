@@ -44,6 +44,7 @@ public class LogInScreenActivity extends AppCompatActivity {
                         sharedPrefManager.writeString("EMAIL",email);
                     }
                     startActivity(goToHomePage);
+                    sharedPrefManager.writeString("User_Email",email);
                     finish();
 
                 }else {

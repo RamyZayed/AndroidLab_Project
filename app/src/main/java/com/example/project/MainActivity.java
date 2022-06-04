@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         }else{
             startActivity(LoggedIn);
         }
-        //sharedPrefManager.clear("EMAIL");
+
         finish();
     }
 }

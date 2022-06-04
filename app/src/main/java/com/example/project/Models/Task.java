@@ -5,12 +5,17 @@ import java.sql.Date;
 public class Task {
     private int Id;
     private String Desc;
-    private Date date;
+    private int Year;
+    private int Month;
+    private int Day;
+    private String email;
 
-    public Task(int id, String desc, Date date) {
-        Id = id;
+    public Task( String desc, int year, int month, int day,String email) {
         Desc = desc;
-        this.date = date;
+        Year = year;
+        Month = month;
+        Day = day;
+        this.email = email;
     }
 
     public int getId() {
@@ -29,11 +34,35 @@ public class Task {
         Desc = desc;
     }
 
-    public Date getDate() {
-        return date;
+    public int getYear() {
+        return Year;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setYear(int year) {
+        Year = year;
+    }
+
+    public int getMonth() {
+        return Month;
+    }
+
+    public void setMonth(int month) {
+        Month = month;
+    }
+
+    public int getDay() {
+        return Day;
+    }
+
+    public void setDay(int day) {
+        Day = day;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
