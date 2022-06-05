@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.project.Models.Task;
 import com.example.project.Models.User;
 
+import java.time.LocalDate;
+
 public class DataBaseHelper extends SQLiteOpenHelper {
     public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -103,6 +105,53 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public Cursor getAllTasks() {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         return sqLiteDatabase.rawQuery("SELECT * FROM TASK", null);
+    }
+    public Cursor getTodayTasks() {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        LocalDate date = LocalDate.now();
+
+        int year = date.getYear();
+        int day = date.getDayOfMonth();
+        int month = date.getMonthValue();
+
+        return sqLiteDatabase.rawQuery("SELECT * FROM TASK WHERE " +
+                "year ="+year+" " +
+                        "and month ="+month+ " and day="+day
+                , null);
+    }
+
+    public void MarkTodayTaskAsDone(int position) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        LocalDate date = LocalDate.now();
+
+        int year = date.getYear();
+        int day = date.getDayOfMonth();
+        int month = date.getMonthValue();
+
+
+        Cursor c =sqLiteDatabase.rawQuery("SELECT * FROM TASK WHERE " +
+                        "year ="+year+" " +
+                        "and month ="+month+ " and day="+day
+                , null);
+
+
+            int i =0;
+             while (c.moveToNext()){
+                 c.getString(0);
+                 if(i == position) break;
+                i++;
+             }
+
+        int id = c.getInt(0);
+             String exec = "UPDATE TASK SET complete = 1 WHERE Id = "+id;
+             System.out.println(exec);
+        ContentValues data=new ContentValues();
+        data.put("complete",1);
+
+        sqLiteDatabase.update("TASk", data, "id=" + id, null);
+        System.out.println("COMPLETE");
+
+
     }
 
 

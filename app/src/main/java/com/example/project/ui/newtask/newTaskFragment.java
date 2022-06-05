@@ -83,7 +83,8 @@ public class newTaskFragment extends Fragment {
                         chosen_Year,
                         chosen_Month,
                         chosen_Day,
-                        email);
+                        email,
+                        0);
                 dataBaseHelper.insertTask(t);
                 Cursor allTasks = dataBaseHelper.getAllTasks();
                 System.out.println("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII  --"+allTasks.getCount());

@@ -9,13 +9,17 @@ public class Task {
     private int Month;
     private int Day;
     private String email;
+    private int complete;
+    public Task(){
 
-    public Task( String desc, int year, int month, int day,String email) {
+    }
+    public Task( String desc, int year, int month, int day,String email,int complete) {
         Desc = desc;
         Year = year;
         Month = month;
         Day = day;
         this.email = email;
+        this.complete = complete;
     }
 
     public int getId() {
@@ -64,5 +68,26 @@ public class Task {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getComplete() {
+        return complete;
+    }
+
+    public void setComplete(int complete) {
+        this.complete = complete;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "Id=" + Id +
+                ", Desc='" + Desc + '\'' +
+                ", Year=" + Year +
+                ", Month=" + Month +
+                ", Day=" + Day +
+                ", email='" + email + '\'' +
+                ", complete=" + complete +
+                '}';
     }
 }
