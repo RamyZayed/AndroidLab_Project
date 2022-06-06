@@ -35,13 +35,13 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Section section = sectionList.get(position);
         String sectionName = section.getSectionName();
+
         List<Task> items = section.getSectionItems();
 
-        Task[] task = new Task[items.size()];
-        items.toArray(task);
+
         holder.sectionNameTextView.setText(sectionName);
 
-        myAdapter childAdapter = new myAdapter(context,task);
+        myAdapter childAdapter = new myAdapter(context,items);
         holder.childRecyclerView.setAdapter(childAdapter);
     }
 

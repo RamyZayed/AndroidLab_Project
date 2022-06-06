@@ -68,11 +68,10 @@ public class TodayFragment extends Fragment {
             tasks.add(task);
         }
 
-        Task arrayTasks[] = new Task[tasks.size()];
-        tasks.toArray(arrayTasks);
+
 
         Boolean isAllDone = true;
-        for(Task d : arrayTasks){
+        for(Task d : tasks){
             if(d.getComplete() == 0){
                 isAllDone = false;
                 break;
@@ -83,7 +82,7 @@ public class TodayFragment extends Fragment {
             toast.show();
         }
         recyclerView = getActivity().findViewById(R.id.list);
-        myAdapter myAdapter = new myAdapter(getActivity(),arrayTasks);
+        myAdapter myAdapter = new myAdapter(getActivity(),tasks);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

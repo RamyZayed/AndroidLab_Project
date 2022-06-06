@@ -12,7 +12,8 @@
         <item
             android:id="@+id/nav_NewTask"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_NewTask" />
+            android:title="@string/menu_NewTask"
+            />
 
         <item
             android:id="@+id/nav_Week"

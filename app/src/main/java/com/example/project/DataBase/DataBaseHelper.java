@@ -318,4 +318,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.update("TASK", data, "id=" + id, null);
     }
+
+    public void deleteTask(int id){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+
+        sqLiteDatabase.delete("TASK", "id=" + id, null);
+
+
+    }
 }

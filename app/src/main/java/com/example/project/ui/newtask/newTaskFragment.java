@@ -71,6 +71,7 @@ public class newTaskFragment extends Fragment {
             datePickerDialog.show();
             }
         });
+
         sharedPrefManager = SharedPrefManager.getInstance(getActivity());
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getActivity(), "Project", null, 1);
         Button AddTaskButton = (Button) getView().findViewById(R.id.Add_Task_Button);
@@ -86,8 +87,8 @@ public class newTaskFragment extends Fragment {
                         email,
                         0);
                 dataBaseHelper.insertTask(t);
-                Cursor allTasks = dataBaseHelper.getAllTasks();
-                System.out.println("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII  --"+allTasks.getCount());
+                description.setText("");
+
             }
         });
 
