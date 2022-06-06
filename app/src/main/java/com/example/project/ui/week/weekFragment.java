@@ -8,8 +8,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project.DataBase.DataBaseHelper;
+import com.example.project.LogInScreenActivity;
+import com.example.project.MainRecyclerAdapter;
+import com.example.project.Models.Section;
+import com.example.project.Models.Task;
 import com.example.project.R;
+import com.example.project.myAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class weekFragment extends Fragment {
 
@@ -28,8 +39,22 @@ public class weekFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //mViewModel = new ViewModelProvider(this).get(WeekViewModel.class);
-        // TODO: Use the ViewModel
+
+        initData();
+    }
+
+    List<Section> week = new ArrayList<>();
+    RecyclerView  mainRecyclerView;
+
+    private void initData() {
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(getActivity(), "Project", null, 1);
+         week = dataBaseHelper.getWeek();
+
+        mainRecyclerView = getActivity().findViewById(R.id.mainRecyclerView);
+        MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(this.getActivity(),week);
+        mainRecyclerView.setAdapter(mainRecyclerAdapter);
+        mainRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+
     }
 
 }

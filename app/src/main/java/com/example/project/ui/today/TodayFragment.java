@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -70,7 +71,17 @@ public class TodayFragment extends Fragment {
         Task arrayTasks[] = new Task[tasks.size()];
         tasks.toArray(arrayTasks);
 
-
+        Boolean isAllDone = true;
+        for(Task d : arrayTasks){
+            if(d.getComplete() == 0){
+                isAllDone = false;
+                break;
+            }
+        }
+        if(isAllDone == true){
+            Toast toast =Toast.makeText(getActivity(),"All of today  tasks are DONE!!!",Toast.LENGTH_SHORT);
+            toast.show();
+        }
         recyclerView = getActivity().findViewById(R.id.list);
         myAdapter myAdapter = new myAdapter(getActivity(),arrayTasks);
         recyclerView.setAdapter(myAdapter);
