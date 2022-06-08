@@ -18,6 +18,7 @@ import com.example.project.MainRecyclerAdapter;
 import com.example.project.Models.Section;
 import com.example.project.Models.Task;
 import com.example.project.R;
+import com.example.project.SharedPreferences.SharedPrefManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,12 +43,15 @@ public class allFragment extends Fragment {
     RecyclerView mainRecyclerView;
 
     Section [] sections;
+    SharedPrefManager sharedPrefManager;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getActivity(), "Project", null, 1);
-        HashMap<String, Section> allTasks = dataBaseHelper.getAllTasksHashMap();
+        sharedPrefManager = SharedPrefManager.getInstance(getActivity());
+        String email = sharedPrefManager.readString("User_Email","NO ");
+        HashMap<String, Section> allTasks = dataBaseHelper.getAllTasksHashMap(email);
 
 
 

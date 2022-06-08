@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.example.project.LogInScreenActivity;
 import com.example.project.MainRecyclerAdapter;
 import com.example.project.Models.Section;
 import com.example.project.R;
+import com.example.project.SharedPreferences.SharedPrefManager;
 import com.example.project.SignUpActivity;
 
 import java.util.Calendar;
@@ -50,6 +52,7 @@ public class searchFragment extends Fragment {
     int endMonth;
     int endYear;
     RecyclerView mainRecyclerView;
+    SharedPrefManager sharedPrefManager;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -105,9 +108,14 @@ public class searchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(getActivity(), "Project", null, 1);
-                List<Section> all =  dataBaseHelper.getTasksBetween(startDay,startMonth,startYear,endDay,endMonth,endYear);
+                sharedPrefManager = SharedPrefManager.getInstance(getActivity());
+                String email = sharedPrefManager.readString("User_Email","NO ");
+                List<Section> all =  dataBaseHelper.getTasksBetween(email,startDay,startMonth,startYear,endDay,endMonth,endYear);
                 //List<Section> all =  dataBaseHelper.getTasksBetween(6,6,2022,30 ,6,2022);
-
+                if(all.size() == 0){
+                    Toast toast =Toast.makeText(getActivity(),"There is no Todos for you in this range",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 mainRecyclerView = getActivity().findViewById(R.id.mainRecyclerView1);
                 MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(getActivity(),all);
                 mainRecyclerView.setAdapter(mainRecyclerAdapter);

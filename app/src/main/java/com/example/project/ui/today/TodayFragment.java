@@ -43,6 +43,7 @@ public class TodayFragment extends Fragment {
 
     RecyclerView recyclerView;
 
+    SharedPrefManager sharedPrefManager;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -50,7 +51,9 @@ public class TodayFragment extends Fragment {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getActivity(), "Project", null, 1);
 
         ArrayList<Task> tasks = new ArrayList<Task>();
-        Cursor todayTasks = dataBaseHelper.getTodayTasks();
+        sharedPrefManager = SharedPrefManager.getInstance(getActivity());
+        String email = sharedPrefManager.readString("User_Email","NO ");
+        Cursor todayTasks = dataBaseHelper.getTodayTasks(email);
 
         while (todayTasks.moveToNext()){
             Task task = new Task();

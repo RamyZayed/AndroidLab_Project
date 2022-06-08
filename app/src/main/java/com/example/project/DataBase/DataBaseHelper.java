@@ -10,6 +10,7 @@ import android.text.Editable;
 import com.example.project.Models.Section;
 import com.example.project.Models.Task;
 import com.example.project.Models.User;
+import com.example.project.SharedPreferences.SharedPrefManager;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -115,13 +116,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public Cursor getAllTasks() {
+
+    public Cursor getAllTasks(String email) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        return sqLiteDatabase.rawQuery("SELECT * FROM TASK", null);
+
+        return sqLiteDatabase.rawQuery("SELECT * FROM TASK where email = '"+email+"'", null);
     }
 
-    public List<Section> getTasksBetween(int sday,int smonth, int syear,int eday, int emonth, int eyear){
-        Cursor All = getAllTasks();
+    public List<Section> getTasksBetween(String email,int sday,int smonth, int syear,int eday, int emonth, int eyear){
+        Cursor All = getAllTasks( email);
         HashMap<String, Section> allTasks = new HashMap<String, Section>();
 
         while (All.moveToNext()){
@@ -160,6 +163,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String SearchDate = day+"/"+month+"/"+year;
             if(allTasks.containsKey(SearchDate)){
                     filtered.add(allTasks.get(SearchDate));
+            }
+            if(day == eday && year == eyear && month == emonth) {
+                break;
             }
             if (month == 1 && day == 31){
                 month = 2;
@@ -201,15 +207,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }else{
                 day++;
             }
-           if(day == eday && year == eyear && month == emonth){
-               break;
-           }
+
         }
         return filtered;
     }
-    public HashMap<String,Section> getAllTasksHashMap() {
+
+    public HashMap<String,Section> getAllTasksHashMap(String email) {
+
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        Cursor All =  sqLiteDatabase.rawQuery("SELECT * FROM TASK", null);
+
+
+        Cursor All =  sqLiteDatabase.rawQuery("SELECT * FROM TASK where email ='"+email+"'", null);
 
         HashMap<String, Section> allTasks = new HashMap<String, Section>();
 
@@ -240,7 +248,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return  allTasks;
     }
 
-    public Cursor getTodayTasks() {
+    public Cursor getTodayTasks(String email) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         LocalDate date = LocalDate.now();
 
@@ -249,6 +257,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int month = date.getMonthValue();
 
         return sqLiteDatabase.rawQuery("SELECT * FROM TASK WHERE " +
+                        "email = '"+email+"' and " +
                 "year ="+year+" " +
                         "and month ="+month+ " and day="+day
                 , null);
@@ -271,10 +280,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         data.put("FIRST_NAME",FirstName);
         data.put("LAST_NAME",Lastname);
         data.put("PASSWORD",password);
+        System.out.println("new email = "+email);
         sqLiteDatabase.update("USER", data, "EMAIL = '" + email+"'", null);
     }
 
-    public List<Section> getWeek(){
+    public List<Section> getWeek(String email){
         List<Section> ss = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         LocalDate date = LocalDate.now();
@@ -286,6 +296,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         for(int i = 0; i < 7 ; i++){
             int current_day = day + i;
             Cursor c =sqLiteDatabase.rawQuery("SELECT * FROM TASK WHERE " +
+                            "email = '"+email+"' and " +
                             "year ="+year+" " +
                             "and month ="+month+ " and day="+current_day
                     , null);

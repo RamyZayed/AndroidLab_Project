@@ -60,6 +60,7 @@ public class profileFragment extends Fragment {
                         LastName.getText().toString(),
                         password.getText().toString());
             }
+
         });
     }
 

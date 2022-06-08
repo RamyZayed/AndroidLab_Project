@@ -17,6 +17,7 @@ import com.example.project.MainRecyclerAdapter;
 import com.example.project.Models.Section;
 import com.example.project.Models.Task;
 import com.example.project.R;
+import com.example.project.SharedPreferences.SharedPrefManager;
 import com.example.project.myAdapter;
 
 import java.util.ArrayList;
@@ -45,10 +46,13 @@ public class weekFragment extends Fragment {
 
     List<Section> week = new ArrayList<>();
     RecyclerView  mainRecyclerView;
-
+    SharedPrefManager sharedPrefManager;
     private void initData() {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getActivity(), "Project", null, 1);
-         week = dataBaseHelper.getWeek();
+
+        sharedPrefManager = SharedPrefManager.getInstance(getActivity());
+        String email = sharedPrefManager.readString("User_Email","NO ");
+        week = dataBaseHelper.getWeek(email);
 
         mainRecyclerView = getActivity().findViewById(R.id.mainRecyclerView);
         MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(this.getActivity(),week);
