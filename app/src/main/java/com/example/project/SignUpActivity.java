@@ -38,24 +38,39 @@ public class SignUpActivity extends AppCompatActivity {
                 String ConfirmPassword = PasswordConfirmationText.getText().toString();
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(SignUpActivity.this, "Project", null, 1);
                 boolean d = dataBaseHelper.checkAlreadyExist(email);
-                if(email.isEmpty() || FirstName.isEmpty() || LastName.isEmpty() || Password.isEmpty() || ConfirmPassword.isEmpty()){
+                if(email.isEmpty() || FirstName.isEmpty() || LastName.isEmpty() || Password.isEmpty() || ConfirmPassword.isEmpty()
+                || validateOtherFields(FirstName) == false ||validateOtherFields(LastName) == false || validatePassowrd(Password) == false ){
                     if(email.isEmpty()){
+                        String myToast = "Email Field is empty.";
+                        Toast toast =Toast.makeText(SignUpActivity.this,myToast,Toast.LENGTH_LONG);
+                        toast.show();
                         EditText text = (EditText)findViewById(R.id.EmailTextField);
                         text.setBackgroundColor(Color.parseColor("#30FF0000"));
                     }
-                    if(FirstName.isEmpty()){
+                    if(!validateOtherFields(FirstName)){
+                        String myToast = "First Name must have a Minimum 3 characters and maximum 20 characters.";
+                        Toast toast =Toast.makeText(SignUpActivity.this,myToast,Toast.LENGTH_LONG);
+                        toast.show();
                         EditText text = (EditText)findViewById(R.id.FirstNameText);
                         text.setBackgroundColor(Color.parseColor("#30FF0000"));
                     }
-                    if(LastName.isEmpty()){
+                    if(!validateOtherFields(LastName)){
+                        String myToast = "Last name must have a Minimum 3 characters and maximum 20 characters.";
+                        Toast toast =Toast.makeText(SignUpActivity.this,myToast,Toast.LENGTH_LONG);
+                        toast.show();
                         EditText text = (EditText)findViewById(R.id.LastNameText);
                         text.setBackgroundColor(Color.parseColor("#30FF0000"));
                     }
-                    if(Password.isEmpty()){
+                    if(validatePassowrd(Password) == false){
                         EditText text = (EditText)findViewById(R.id.PasswordText);
                         text.setBackgroundColor(Color.parseColor("#30FF0000"));
+                        String myToast = "Password must have a Minimum 8 characters and maximum 15 characters. It must contain at least one number, one lowercase letter, and one uppercase letter.";
+                        Toast toast =Toast.makeText(SignUpActivity.this,myToast,Toast.LENGTH_LONG);
+                        toast.show();
                     }
                     if(ConfirmPassword.isEmpty()){
+                        Toast toast =Toast.makeText(SignUpActivity.this,"Please Confirm the password",Toast.LENGTH_LONG);
+                        toast.show();
                         EditText text = (EditText)findViewById(R.id.ConfirmPasswordText);
                         text.setBackgroundColor(Color.parseColor("#30FF0000"));
                     }
@@ -69,6 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast toast =Toast.makeText(SignUpActivity.this,"Email Already Exists",Toast.LENGTH_SHORT);
                     toast.show();
                 }else if(!email.contains("@") || !email.contains(".")){
+                    PasswordText.setBackgroundColor(Color.parseColor("#30FF0000"));
                     Toast toast =Toast.makeText(SignUpActivity.this,"Please Enter a valid Email",Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -111,6 +127,31 @@ public class SignUpActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public boolean validatePassowrd(String password){
+        if(password.length() <8 || password.length() > 15) {
+            return false;
+        }
+        if(!password.matches(".*[0-9].*") ){
+            return false;
+        }
+        if(!password.matches(".*[A-Z].*") ){
+            return false;
+        }
+        if(!password.matches(".*[a-z].*") ){
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public boolean validateOtherFields(String field){
+        if(field.length() <3 || field.length() > 20) {
+            return false;
+        }
+        return  true;
     }
 
 }

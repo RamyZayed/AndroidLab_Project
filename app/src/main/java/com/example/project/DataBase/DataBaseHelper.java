@@ -37,7 +37,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "month INTEGER," +
                 "day INTEGER," +
                 "email TEXT," +
-                "complete INTEGER)";
+                "complete INTEGER," +
+                "FOREIGN KEY (email) REFERENCES USER(EMAIL))";
         sqLiteDatabase.execSQL(TasksQuery);
     }
     @Override
@@ -151,9 +152,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
         }
 
+
         List<Section> filtered = new ArrayList<>();
-
-
         int day = sday;
         int month = smonth;
         int year = syear;
@@ -264,23 +264,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public void MarkTodayTaskAsDone(int id,int newvalue) {
-        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         LocalDate date = LocalDate.now();
         ContentValues data=new ContentValues();
         data.put("complete",newvalue);
 
         sqLiteDatabase.update("TASk", data, "id=" + id, null);
         System.out.println("COMPLETE");
-
     }
     public void updateProfile(String email,String FirstName, String Lastname , String password){
-        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         ContentValues data=new ContentValues();
         data.put("EMAIL",email);
         data.put("FIRST_NAME",FirstName);
         data.put("LAST_NAME",Lastname);
         data.put("PASSWORD",password);
-        System.out.println("new email = "+email);
         sqLiteDatabase.update("USER", data, "EMAIL = '" + email+"'", null);
     }
 
@@ -295,7 +293,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         for(int i = 0; i < 7 ; i++){
             int current_day = day + i;
-            Cursor c =sqLiteDatabase.rawQuery("SELECT * FROM TASK WHERE " +
+            Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM TASK WHERE " +
                             "email = '"+email+"' and " +
                             "year ="+year+" " +
                             "and month ="+month+ " and day="+current_day
