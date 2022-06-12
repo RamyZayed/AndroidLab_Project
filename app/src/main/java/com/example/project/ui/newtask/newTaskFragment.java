@@ -2,6 +2,7 @@ package com.example.project.ui.newtask;
 
 import android.app.DatePickerDialog;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.project.DataBase.DataBaseHelper;
+import com.example.project.LogInScreenActivity;
 import com.example.project.Models.Task;
 import com.example.project.R;
 import com.example.project.SharedPreferences.SharedPrefManager;
@@ -79,15 +82,33 @@ public class newTaskFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 EditText description = (EditText)getView().findViewById(R.id.desc_text);
-                String email = sharedPrefManager.readString("User_Email","NOT FOUND");
-                Task t = new Task(description.getText().toString(),
-                        chosen_Year,
-                        chosen_Month,
-                        chosen_Day,
-                        email,
-                        0);
-                dataBaseHelper.insertTask(t);
-                description.setText("");
+                TextView date = (TextView)getView().findViewById(R.id.DateText);
+                if(chosen_Day == 0){
+                    date.setBackgroundColor(Color.parseColor("#30FF0000"));
+                    Toast toast =Toast.makeText(getActivity(),"Please Fill in a date",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                if(description.getText().toString().isEmpty()){
+                    description.setBackgroundColor(Color.parseColor("#30FF0000"));
+                    Toast toast =Toast.makeText(getActivity(),"Please Fill in a Description",Toast.LENGTH_SHORT);
+                    toast.show();
+                }else if (!description.getText().toString().isEmpty() && chosen_Day != 0) {
+                    description.setBackgroundColor(Color.parseColor("#30ffffff"));
+                    date.setBackgroundColor(Color.parseColor("#30ffffff"));
+
+                    String email = sharedPrefManager.readString("User_Email","NOT FOUND");
+                    Task t = new Task(description.getText().toString(),
+                            chosen_Year,
+                            chosen_Month,
+                            chosen_Day,
+                            email,
+                            0);
+                    dataBaseHelper.insertTask(t);
+                    description.setText("");
+                    Toast toast =Toast.makeText(getActivity(),"New Task Added",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
 
             }
         });

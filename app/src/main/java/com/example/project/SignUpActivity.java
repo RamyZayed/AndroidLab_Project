@@ -91,19 +91,23 @@ public class SignUpActivity extends AppCompatActivity {
                 else {
                     EditText text1 = (EditText)findViewById(R.id.EmailTextField);
                     text1.setBackgroundColor(Color.parseColor("#30ffffff"));
+                    text1.setText("");
 
                     EditText text2 = (EditText)findViewById(R.id.FirstNameText);
                     text2.setBackgroundColor(Color.parseColor("#30ffffff"));
+                    text2.setText("");
 
                     EditText text3 = (EditText)findViewById(R.id.LastNameText);
                     text3.setBackgroundColor(Color.parseColor("#30ffffff"));
-
+                    text3.setText("");
 
                     EditText text4 = (EditText)findViewById(R.id.PasswordText);
                     text4.setBackgroundColor(Color.parseColor("#30ffffff"));
+                    text4.setText("");
 
                     EditText text5 = (EditText)findViewById(R.id.ConfirmPasswordText);
                     text5.setBackgroundColor(Color.parseColor("#30ffffff"));
+                    text5.setText("");
 
                     User u = new User(email,
                             FirstName,

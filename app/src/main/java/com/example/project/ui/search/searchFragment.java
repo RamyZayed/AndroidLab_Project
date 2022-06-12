@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -45,12 +46,12 @@ public class searchFragment extends Fragment {
 
     Calendar c;
     DatePickerDialog datePickerDialog;
-    int startDay;
-    int startMonth;
-    int startYear;
-    int endDay;
-    int endMonth;
-    int endYear;
+    int startDay = 0;
+    int startMonth = 0;
+    int startYear = 0;
+    int endDay = 0;
+    int endMonth = 0;
+    int endYear = 0;
     RecyclerView mainRecyclerView;
     SharedPrefManager sharedPrefManager;
     @Override
@@ -107,19 +108,33 @@ public class searchFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TextView end = (TextView)getView().findViewById(R.id.endText);
+                TextView start = (TextView)getView().findViewById(R.id.startText);
+                if(startDay == 0 || endDay == 0) {
+                    start.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.shakeanimation));
+                    end.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.shakeanimation));
+                    Toast toast = Toast.makeText(getActivity(), "Please Select a start or an end date", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(getActivity(), "Project", null, 1);
                 sharedPrefManager = SharedPrefManager.getInstance(getActivity());
                 String email = sharedPrefManager.readString("User_Email","NO ");
                 List<Section> all =  dataBaseHelper.getTasksBetween(email,startDay,startMonth,startYear,endDay,endMonth,endYear);
-                //List<Section> all =  dataBaseHelper.getTasksBetween(6,6,2022,30 ,6,2022);
+
                 if(all.size() == 0){
                     Toast toast =Toast.makeText(getActivity(),"There is no Todos for you in this range",Toast.LENGTH_SHORT);
                     toast.show();
                 }
-                mainRecyclerView = getActivity().findViewById(R.id.mainRecyclerView1);
-                MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(getActivity(),all);
-                mainRecyclerView.setAdapter(mainRecyclerAdapter);
-                mainRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+                System.out.println(startDay);
+
+
+                    System.out.println("Am here");
+                    mainRecyclerView = getActivity().findViewById(R.id.mainRecyclerView1);
+                    MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(getActivity(),all);
+                    mainRecyclerView.setAdapter(mainRecyclerAdapter);
+                    mainRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+                }
+
             }
         });
 
